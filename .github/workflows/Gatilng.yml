@@ -3,7 +3,7 @@ name: Maven Build and Gatling Test
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-test:
