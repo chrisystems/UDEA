@@ -1,0 +1,32 @@
+name: Maven Build and Gatling Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
+      - name: Build with Maven
+        run: mvn clean install -Xmx3072m
+
+      - name: Run Gatling Tests
+        run: mvn clean gatling:test -Xmx3072m
+
+      - name: Upload Gatling Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: gatling
+          path: target/gatling
